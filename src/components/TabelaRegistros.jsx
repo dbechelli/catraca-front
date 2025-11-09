@@ -47,13 +47,29 @@ export default function TabelaRegistros({ registros, loading }) {
     return hora.substring(0, 5); // HH:MM
   };
 
-  const formatarData = (data) => {
-    try {
-      return format(new Date(data), 'dd/MM/yyyy', { locale: ptBR });
-    } catch {
-      return data;
+  const formatarData = (dataStr) => {
+  if (!dataStr) return '-';
+  try {
+    // Remove qualquer parte de hora UTC, ex: "2025-10-01T00:00:00.000Z"
+    const cleanDate = dataStr.split('T')[0];
+
+    // Garante que está no formato ISO "YYYY-MM-DD"
+    if (/^\d{4}-\d{2}-\d{2}$/.test(cleanDate)) {
+      const [ano, mes, dia] = cleanDate.split('-');
+      return `${dia}/${mes}/${ano}`;
     }
-  };
+
+    // Se vier bagunçado tipo "01T00:00:00.000Z/10/2025"
+    const match = cleanDate.match(/(\d{2}).*?(\d{2}).*?(\d{4})/);
+    if (match) return `${match[1]}/${match[2]}/${match[3]}`;
+
+    return cleanDate;
+  } catch {
+    return dataStr;
+  }
+};
+
+
 
   const getGrupoIcon = (grupo) => {
     const icons = {

@@ -15,28 +15,35 @@ export const registrosService = {
     return response.data;
   },
 
-  // Listar registros com filtros
+  // Listar registros com filtros (incluindo período)
   async listar(filtros = {}) {
     const params = new URLSearchParams();
     
     if (filtros.nome) params.append('nome', filtros.nome);
     if (filtros.data) params.append('data', filtros.data);
+    
+    // NOVO: Suporte a período de datas
+    if (filtros.data_inicial) params.append('data_inicial', filtros.data_inicial);
+    if (filtros.data_final) params.append('data_final', filtros.data_final);
+    
     if (filtros.catraca_id) params.append('catraca_id', filtros.catraca_id);
     if (filtros.grupo_horario) params.append('grupo_horario', filtros.grupo_horario);
     if (filtros.duplicados !== undefined) params.append('duplicados', filtros.duplicados);
 
     const response = await api.get(`api/registros?${params.toString()}`);
-
-    console.log('📦 Conteúdo retornado pela API /registros:', response.data); // 👈 adicione isto
-
     return response.data;
   },
 
-  // Obter indicadores
+  // Obter indicadores (incluindo período)
   async obterIndicadores(filtros = {}) {
     const params = new URLSearchParams();
     
     if (filtros.data) params.append('data', filtros.data);
+    
+    // NOVO: Suporte a período de datas
+    if (filtros.data_inicial) params.append('data_inicial', filtros.data_inicial);
+    if (filtros.data_final) params.append('data_final', filtros.data_final);
+    
     if (filtros.catraca_id) params.append('catraca_id', filtros.catraca_id);
 
     const response = await api.get(`api/registros/indicadores?${params.toString()}`);
@@ -49,11 +56,16 @@ export const registrosService = {
     return response.data;
   },
 
-  // Deletar registros
+  // Deletar registros (incluindo período)
   async deletar(filtros = {}) {
     const params = new URLSearchParams();
     
     if (filtros.data) params.append('data', filtros.data);
+    
+    // NOVO: Suporte a período de datas
+    if (filtros.data_inicial) params.append('data_inicial', filtros.data_inicial);
+    if (filtros.data_final) params.append('data_final', filtros.data_final);
+    
     if (filtros.catraca_id) params.append('catraca_id', filtros.catraca_id);
 
     const response = await api.delete(`api/registros?${params.toString()}`);
