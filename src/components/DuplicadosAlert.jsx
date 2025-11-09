@@ -177,7 +177,7 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
 
       autoTable(doc, {
         startY: startY,
-        head: [['Nome', 'Data', 'Hora Entrada', 'Catraca']],
+        head: [['Nome', 'Data', 'Entrada', 'Saída', 'Tempo', 'Catraca']],
         body: dadosTabela,
         theme: 'grid',
         headStyles: { 
@@ -279,7 +279,7 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
 
       autoTable(doc, {
         startY: startY,
-        head: [['Nome', 'Data', 'Hora Saída', 'Catraca']],
+        head: [['Nome', 'Data', 'Entrada', 'Saída', 'Tempo', 'Catraca']],
         body: dadosTabela,
         theme: 'grid',
         headStyles: { 
