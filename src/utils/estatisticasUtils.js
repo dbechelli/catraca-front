@@ -7,7 +7,6 @@ export function calcularEstatisticasAvancadas(registros) {
       cafe: { entradas: 0, saidas: 0, completos: 0, semSaida: 0, semEntrada: 0 },
       almoco: { entradas: 0, saidas: 0, completos: 0, semSaida: 0, semEntrada: 0 },
       janta: { entradas: 0, saidas: 0, completos: 0, semSaida: 0, semEntrada: 0 },
-      outro: { entradas: 0, saidas: 0, completos: 0, semSaida: 0, semEntrada: 0 },
       totais: { semSaida: 0, semEntrada: 0, maiorConcentracaoSemSaida: null, maiorConcentracaoSemEntrada: null }
     };
   }
@@ -21,7 +20,6 @@ export function calcularEstatisticasAvancadas(registros) {
 
   registros.forEach(registro => {
     const grupo = registro.grupo_horario || 'outro';
-    
     if (!stats[grupo]) return;
 
     const temEntrada = registro.horario_entrada && registro.horario_entrada !== null;
