@@ -64,10 +64,15 @@ function App() {
     setLoading((prev) => ({ ...prev, registros: true }));
     try {
       const response = await registrosService.listar(filtrosAtuais);
-      setRegistros(response.registros || []);
+      const registrosCarregados = response.registros || [];
+      setRegistros(registrosCarregados);
+      
+      // CORREÇÃO: Retornar os registros carregados
+      return registrosCarregados;
     } catch (error) {
       console.error("Erro ao carregar registros:", error);
       setRegistros([]);
+      return [];
     } finally {
       setLoading((prev) => ({ ...prev, registros: false }));
     }
@@ -78,9 +83,11 @@ function App() {
     try {
       const response = await registrosService.obterIndicadores(filtrosAtuais);
       setIndicadores(response.indicadores);
+      return response.indicadores;
     } catch (error) {
       console.error("Erro ao carregar indicadores:", error);
       setIndicadores(null);
+      return null;
     } finally {
       setLoading((prev) => ({ ...prev, indicadores: false }));
     }
@@ -90,13 +97,21 @@ function App() {
     carregarDados();
   };
 
-  const handleLimparFiltros = () => {
+  const handleLimparFiltros = async () => {
     setFiltros({});
-    carregarRegistros({});
-    carregarIndicadores({});
+    
+    // Carregar todos os dados sem filtros
+    const [registrosCarregados] = await Promise.all([
+      carregarRegistros({}),
+      carregarIndicadores({})
+    ]);
+    
+    // Recalcular estatísticas com todos os registros
+    const stats = calcularEstatisticasAvancadas(registrosCarregados);
+    setEstatisticasAvancadas(stats);
   };
 
-  const handleAplicarFiltros = (novosFiltros) => {
+  const handleAplicarFiltros = async (novosFiltros) => {
     // Corrigir timezone da data (bug do "dia anterior")
     const corrigirData = (dataStr) => {
       if (!dataStr) return undefined;
@@ -114,8 +129,18 @@ function App() {
     };
 
     setFiltros(filtrosCorrigidos);
-    carregarRegistros(filtrosCorrigidos);
-    carregarIndicadores(filtrosCorrigidos);
+    
+    // CORREÇÃO: Aguardar e capturar os registros filtrados
+    const [registrosFiltrados] = await Promise.all([
+      carregarRegistros(filtrosCorrigidos),
+      carregarIndicadores(filtrosCorrigidos)
+    ]);
+    
+    // CORREÇÃO: Recalcular estatísticas com os registros filtrados
+    if (registrosFiltrados) {
+      const novasEstatisticas = calcularEstatisticasAvancadas(registrosFiltrados);
+      setEstatisticasAvancadas(novasEstatisticas);
+    }
   };
 
   const handleRefresh = () => {
@@ -209,30 +234,18 @@ function App() {
             <DuplicadosAlert
               totalDuplicados={totalDuplicados}
               estatisticasAvancadas={estatisticasAvancadas}
+              indicadores={indicadores}
+              registros={registros}  // <-- ADICIONAR
             />
           </section>
 
           {/* Filtros */}
           <section>
             <Filtros
-                filtros={filtros}
-                onAplicar={async (novosFiltros) => {
-                  setFiltros(novosFiltros);
-
-                  // 🔹 Recarrega os dados principais
-                  await Promise.all([
-                    carregarRegistros(novosFiltros),
-                    carregarIndicadores(novosFiltros),
-                  ]);
-
-                  // 🔹 Atualiza também os dados que alimentam o DuplicadosAlert
-                  const novosRegistros = await carregarRegistros(novosFiltros);
-                  const novasEstatisticas = calcularEstatisticasAvancadas(novosRegistros);
-                  setEstatisticasAvancadas(novasEstatisticas);
-                }}
-                onLimpar={handleLimparFiltros}
-              />
-
+              filtros={filtros}
+              onAplicar={handleAplicarFiltros}
+              onLimpar={handleLimparFiltros}
+            />
           </section>
 
           {/* Tabela */}

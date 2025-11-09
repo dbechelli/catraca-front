@@ -109,7 +109,7 @@ export default function Filtros({ filtros, onChange, onLimpar, onAplicar }) {
         </div>
 
         {/* Linha 2: Catraca, Período e Duplicados */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Filtro por Catraca */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -140,34 +140,6 @@ export default function Filtros({ filtros, onChange, onLimpar, onAplicar }) {
               <option value="cafe">☕ Café</option>
               <option value="almoco">🍽️ Almoço</option>
               <option value="janta">🌙 Janta</option>
-              <option value="outro">❓ Outro</option>
-            </select>
-          </div>
-
-          {/* Filtro por Duplicados */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Duplicados
-            </label>
-            <select
-              value={
-                filtrosLocais.duplicados !== undefined
-                  ? filtrosLocais.duplicados.toString()
-                  : ""
-              }
-              onChange={(e) =>
-                handleChange(
-                  "duplicados",
-                  e.target.value === ""
-                    ? undefined
-                    : e.target.value === "true"
-                )
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Todos</option>
-              <option value="true">Apenas duplicados</option>
-              <option value="false">Sem duplicados</option>
             </select>
           </div>
         </div>
