@@ -31,7 +31,7 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
       cafe: duplicados.filter(d => d.grupo_horario === 'cafe'),
       almoco: duplicados.filter(d => d.grupo_horario === 'almoco'),
       janta: duplicados.filter(d => d.grupo_horario === 'janta'),
-      outros: duplicados.filter(d => d.grupo_horario === 'outro')
+      outro: duplicados.filter(d => d.grupo_horario === 'outro')
     };
 
     let startY = 58;
@@ -134,7 +134,7 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
       cafe: entradasSemSaida.filter(d => d.grupo_horario === 'cafe'),
       almoco: entradasSemSaida.filter(d => d.grupo_horario === 'almoco'),
       janta: entradasSemSaida.filter(d => d.grupo_horario === 'janta'),
-      outros: duplicados.filter(d => d.grupo_horario === 'outro')
+      outro: duplicados.filter(d => d.grupo_horario === 'outro')
     };
 
     let startY = 58;
@@ -237,7 +237,7 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
       cafe: saidasSemEntrada.filter(d => d.grupo_horario === 'cafe'),
       almoco: saidasSemEntrada.filter(d => d.grupo_horario === 'almoco'),
       janta: saidasSemEntrada.filter(d => d.grupo_horario === 'janta'),
-      outros: duplicados.filter(d => d.grupo_horario === 'outro')
+      outro: duplicados.filter(d => d.grupo_horario === 'outro')
     };
 
     let startY = 58;
