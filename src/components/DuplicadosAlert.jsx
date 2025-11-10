@@ -30,12 +30,13 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
     const porPeriodo = {
       cafe: duplicados.filter(d => d.grupo_horario === 'cafe'),
       almoco: duplicados.filter(d => d.grupo_horario === 'almoco'),
-      janta: duplicados.filter(d => d.grupo_horario === 'janta')
+      janta: duplicados.filter(d => d.grupo_horario === 'janta'),
+      outros: duplicados.filter(d => d.grupo_horario === 'outro')
     };
 
     let startY = 58;
 
-    ['cafe', 'almoco', 'janta'].forEach(periodo => {
+    ['cafe', 'almoco', 'janta', 'outro'].forEach(periodo => {
       const registrosPeriodo = porPeriodo[periodo];
       if (registrosPeriodo.length === 0) return;
 
@@ -132,12 +133,13 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
     const porPeriodo = {
       cafe: entradasSemSaida.filter(d => d.grupo_horario === 'cafe'),
       almoco: entradasSemSaida.filter(d => d.grupo_horario === 'almoco'),
-      janta: entradasSemSaida.filter(d => d.grupo_horario === 'janta')
+      janta: entradasSemSaida.filter(d => d.grupo_horario === 'janta'),
+      outros: duplicados.filter(d => d.grupo_horario === 'outro')
     };
 
     let startY = 58;
 
-    ['cafe', 'almoco', 'janta'].forEach(periodo => {
+    ['cafe', 'almoco', 'janta', 'outro'].forEach(periodo => {
       const registrosPeriodo = porPeriodo[periodo];
       if (registrosPeriodo.length === 0) return;
 
@@ -234,12 +236,13 @@ export default function DuplicadosAlert({ totalDuplicados, estatisticasAvancadas
     const porPeriodo = {
       cafe: saidasSemEntrada.filter(d => d.grupo_horario === 'cafe'),
       almoco: saidasSemEntrada.filter(d => d.grupo_horario === 'almoco'),
-      janta: saidasSemEntrada.filter(d => d.grupo_horario === 'janta')
+      janta: saidasSemEntrada.filter(d => d.grupo_horario === 'janta'),
+      outros: duplicados.filter(d => d.grupo_horario === 'outro')
     };
 
     let startY = 58;
 
-    ['cafe', 'almoco', 'janta'].forEach(periodo => {
+    ['cafe', 'almoco', 'janta', 'outro'].forEach(periodo => {
       const registrosPeriodo = porPeriodo[periodo];
       if (registrosPeriodo.length === 0) return;
 

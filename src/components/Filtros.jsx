@@ -140,6 +140,7 @@ export default function Filtros({ filtros, onChange, onLimpar, onAplicar }) {
               <option value="cafe">☕ Café</option>
               <option value="almoco">🍽️ Almoço</option>
               <option value="janta">🌙 Janta</option>
+              <option value="outro">❓ Outros</option>
             </select>
           </div>
         </div>
