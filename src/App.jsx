@@ -8,6 +8,7 @@ import Filtros from "./components/Filtros";
 import TabelaRegistros from "./components/TabelaRegistros";
 import registrosService from "./services/registrosService";
 import { calcularEstatisticasAvancadas } from "./utils/estatisticasUtils";
+import UploadAreaConsolidado from './components/UploadAreaConsolidado';
 
 function App() {
   const [todosRegistros, setTodosRegistros] = useState([]);
@@ -208,12 +209,17 @@ function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           {/* Upload */}
-          <section>
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <span>📤</span>
-              <span>Upload de Arquivos</span>
-            </h2>
-            <UploadButton onClick={() => setModalOpen(true)} />
+          <section className="animate-fadeIn">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                <FileSpreadsheet className="w-6 h-6 text-blue-600" />
+                Upload de Arquivos
+              </h2>
+              <p className="text-gray-600 mt-1">
+                Carregue os arquivos das catracas e processe de forma consolidada
+              </p>
+            </div>
+            <UploadAreaConsolidado onProcessSuccess={handleProcessSuccess} />
           </section>
 
           {/* Cards */}
