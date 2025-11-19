@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RefreshCw, Database } from "lucide-react";
+import { Calendar, Filter, FileSpreadsheet, BarChart3, RefreshCw, Database } from "lucide-react";
 import UploadButton from "./components/UploadButton";
 import UploadModal from "./components/UploadModal";
 import IndicatorCards from "./components/IndicatorCards";
@@ -22,6 +22,8 @@ function App() {
   });
   const [apiStatus, setApiStatus] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
+
 
   useEffect(() => {
     verificarAPI();
@@ -154,6 +156,15 @@ function App() {
       (indicadores.almoco?.duplicados || 0) +
       (indicadores.janta?.duplicados || 0)
     : 0;
+
+  const handleProcessSuccess = () => {
+  setShowUpload(false);
+  carregarDados();
+  
+  setTimeout(() => {
+    setShowUpload(true);
+  }, 3000);
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
