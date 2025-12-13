@@ -1,0 +1,144 @@
+.admin-permissions-container {
+  width: 100%;
+}
+
+.admin-permissions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.admin-permissions-header h1 {
+  margin: 0;
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-error {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+}
+
+.alert-success {
+  background-color: #efe;
+  border: 1px solid #cfc;
+  color: #363;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading {
+  color: #666;
+  font-size: 16px;
+}
+
+.permissions-table-container {
+  overflow-x: auto;
+}
+
+.permissions-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.permissions-table thead {
+  background-color: #f8f8f8;
+  border-bottom: 2px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.permissions-table th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  border-right: 1px solid #eee;
+}
+
+.permissions-table td {
+  padding: 10px 8px;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.permissions-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.permissions-table input[type="checkbox"] {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.permissions-table input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.permissions-table input[type="checkbox"]:not(:disabled):hover {
+  transform: scale(1.1);
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+  .permissions-table {
+    font-size: 11px;
+  }
+
+  .permissions-table th,
+  .permissions-table td {
+    padding: 6px 4px;
+  }
+
+  .permissions-table th {
+    font-size: 10px;
+  }
+
+  .permissions-table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .permissions-table {
+    font-size: 12px;
+  }
+
+  .permissions-table th,
+  .permissions-table td {
+    padding: 8px 6px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .permissions-table {
+    font-size: 13px;
+  }
+
+  .permissions-table th,
+  .permissions-table td {
+    padding: 12px 10px;
+  }
+}
