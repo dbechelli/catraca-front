@@ -118,7 +118,15 @@ export default function ConferenciaICMS() {
   const parseNumber = (value) => {
     if (value === null || value === undefined || value === '') return 0;
     if (typeof value === 'number') return value;
-    const v = value.toString().replace(/[R$\s\.]/g, '').replace(',', '.');
+    
+    let v = value.toString();
+    // Se tiver vírgula, assume formato BR (milhar ponto, decimal virgula)
+    if (v.includes(',')) {
+      v = v.replace(/\./g, '').replace(',', '.');
+    }
+    // Remove caracteres não numéricos exceto ponto e sinal negativo
+    v = v.replace(/[^\d.-]/g, '');
+    
     return parseFloat(v) || 0;
   };
 
@@ -128,8 +136,8 @@ export default function ConferenciaICMS() {
   };
 
   const formatPercent = (value) => {
-    if (value === null || value === undefined || isNaN(value)) return '0,00%';
-    return parseFloat(value).toFixed(2).replace('.', ',') + '%';
+    const v = parseNumber(value);
+    return v.toFixed(2).replace('.', ',') + '%';
   };
 
   const formatDate = (d) => {
@@ -176,7 +184,7 @@ export default function ConferenciaICMS() {
           newRow.status_frete = '-';
           newRow._divergencia_frete = false;
         } else {
-          const valorFreteCalculado = valorMercadoria * (parseFloat(value) / 100);
+          const valorFreteCalculado = valorMercadoria * (parseNumber(value) / 100);
           newRow.valor_frete_calculado = valorFreteCalculado;
           
           const freteSemIcms = parseNumber(newRow.frete_sem_icms);
