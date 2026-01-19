@@ -9,7 +9,7 @@ const financeiroService = {
    */
   async getFluxoDiario(dataInicial, dataFinal) {
     try {
-      const response = await api.get('/financeiro/fluxo-diario', {
+      const response = await api.get('/api/financeiro/fluxo-diario', {
         params: {
           data_inicial: dataInicial,
           data_final: dataFinal
