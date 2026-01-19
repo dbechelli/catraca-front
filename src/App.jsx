@@ -7,6 +7,7 @@ import ConferenciaICMS from './pages/ConferenciaICMS';
 import AdminUsers from './pages/AdminUsers';
 import AdminPermissions from './pages/AdminPermissions';
 import Profile from './pages/Profile';
+import GestaoOperacional from './pages/GestaoOperacional/GestaoOperacional';
 import PrivateRoute from './components/PrivateRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 import PermissionRoute from './components/PermissionRoute';
@@ -36,6 +37,16 @@ function App() {
               <PermissionRoute requiredPermission="catraca">
                 <Dashboard />
               </PermissionRoute>
+            }
+          />
+
+          {/* Gestão Operacional */}
+          <Route
+            path="/gestao-operacional"
+            element={
+              <PrivateRoute>
+                <GestaoOperacional />
+              </PrivateRoute>
             }
           />
 

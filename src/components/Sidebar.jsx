@@ -77,6 +77,11 @@ export default function Sidebar() {
       icon: '🚚',
       permission: 'conferencia',
       path: '/conferencia-icms'
+    },
+    {
+      label: 'Gestão Operacional',
+      icon: '💰',
+      path: '/gestao-operacional'
     }
   ];
 
