@@ -106,6 +106,21 @@ export default function GestaoOperacional() {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   };
 
+  const formatDataLocal = (dateStr) => {
+    if (!dateStr) return '-';
+    // Se for formato YYYY-MM-DD, tratamos manualmente para não sofrer alteração de timezone
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        const [year, month, day] = dateStr.split('-');
+        return `${day}/${month}/${year}`;
+    }
+    // Fallback para outros formatos
+    try {
+        return format(new Date(dateStr), 'dd/MM/yyyy');
+    } catch {
+        return dateStr;
+    }
+  };
+
   return (
     <div className="flex bg-gray-100 min-h-screen">
       <Sidebar />
@@ -249,7 +264,7 @@ export default function GestaoOperacional() {
                             registros.map((registro, idx) => (
                                 <tr key={idx} className="hover:bg-gray-50 transition-colors">
                                     <td className="p-4 text-sm text-gray-700">
-                                        {format(new Date(registro.data), 'dd/MM/yyyy')}
+                                        {formatDataLocal(registro.data)}
                                     </td>
                                     <td className="p-4 text-sm">
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
