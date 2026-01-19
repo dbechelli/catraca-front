@@ -54,46 +54,49 @@ export default function GestaoOperacional() {
 
   const calcularResumo = (dados) => {
     // Cálculos baseados estritamente nos dados retornados pela API
-    // Assumindo categorização por descrição ou código (ajustar conforme códigos reais do backend)
     
     let totalMercadoria = 0;
     let totalSeguro = 0;
     let totalFrete = 0;
     let totalDespesas = 0;
+    let fretePercentVal = 0;
 
     dados.forEach(item => {
       const valor = parseFloat(item.valor) || 0;
-      const desc = item.descricao ? item.descricao.toLowerCase() : '';
+      const cod = String(item.cod_sub_custo);
       const tipoItem = item.tipo;
-      const cod = item.cod_sub_custo;
 
-      // Lógica de Soma Direta dos Registros
-      if (tipoItem === 'RECEITA' || cod === '1' || desc.includes('mercadoria')) {
-        totalMercadoria += valor;
-      } 
+      // Soma estrita por código (conforme mapeamento observado)
+      if (cod === '1') {
+          totalMercadoria += valor;
+      }
+      if (cod === '2') {
+          totalSeguro += valor;
+      }
+      if (cod === '3') {
+          totalFrete += valor;
+      }
       
+      // Captura o valor percentual vindo da API no código 4
+      if (cod === '4') {
+          fretePercentVal = valor; 
+      }
+
       if (tipoItem === 'DESPESA') {
         totalDespesas += Math.abs(valor);
       }
-
-      // Se houver itens específicos de Seguro e Frete na lista:
-      if (desc.includes('seguro')) {
-        totalSeguro += Math.abs(valor);
-      }
-      
-      if (desc.includes('frete')) {
-        totalFrete += Math.abs(valor);
-      }
     });
 
-    // Percentual de frete sobre mercadoria (Visual apenas)
-    const fretePercent = totalMercadoria > 0 ? ((totalFrete / totalMercadoria) * 100) : 0;
+    // Se NÃO vier valor no código 4, mantemos o cálculo manual como fallback
+    if (fretePercentVal === 0 && totalMercadoria > 0) {
+        fretePercentVal = (totalFrete / totalMercadoria) * 100;
+    }
 
     setResumo({
       valorMercadoria: totalMercadoria,
       seguro: totalSeguro,
       frete: totalFrete,
-      fretePercent: fretePercent.toFixed(2), // 2 casas decimais visualmente
+      fretePercent: fretePercentVal.toFixed(2), 
       despesas: totalDespesas
     });
   };
@@ -288,7 +291,10 @@ export default function GestaoOperacional() {
                                     <td className={`p-4 text-sm font-medium text-right ${
                                         registro.tipo === 'RECEITA' ? 'text-green-600' : 'text-red-600'
                                     }`}>
-                                        {formatCurrency(registro.valor)}
+                                        {String(registro.cod_sub_custo) === '4' 
+                                            ? `${parseFloat(registro.valor).toFixed(2).replace('.', ',')}%`
+                                            : formatCurrency(registro.valor)
+                                        }
                                     </td>
                                 </tr>
                             ))
