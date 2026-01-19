@@ -108,11 +108,19 @@ export default function GestaoOperacional() {
 
   const formatDataLocal = (dateStr) => {
     if (!dateStr) return '-';
-    // Se for formato YYYY-MM-DD, tratamos manualmente para não sofrer alteração de timezone
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        const [year, month, day] = dateStr.split('-');
+    
+    // Garante que tratamos como string
+    const str = String(dateStr);
+
+    // Tenta extrair a parte YYYY-MM-DD (funciona para ISO string ou data simples)
+    // Isso evita problemas de verter para UTC-3 (volta 1 dia)
+    const datePart = str.split('T')[0];
+    
+    if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+        const [year, month, day] = datePart.split('-');
         return `${day}/${month}/${year}`;
     }
+
     // Fallback para outros formatos
     try {
         return format(new Date(dateStr), 'dd/MM/yyyy');
