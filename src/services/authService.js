@@ -197,6 +197,23 @@ const authService = {
     }
   },
 
+  /**
+   * Resetar senha de usuário (apenas superadmin)
+   * @param {number} id
+   * @param {string} newPassword
+   * @returns {Promise}
+   */
+  async resetUserPassword(id, newPassword) {
+    try {
+      const response = await api.post(`/api/admin/users/${id}/reset-password`, {
+        password: newPassword
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { error: 'Erro ao resetar senha' };
+    }
+  },
+
   // ========== ROTAS REGISTROS ==========
 
   /**

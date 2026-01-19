@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Lock, Unlock, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Lock, Unlock, X, Key } from 'lucide-react';
 import authService from '../services/authService';
 import permissionsService from '../services/permissionsService';
 import Sidebar from '../components/Sidebar';
@@ -15,6 +15,10 @@ export default function AdminUsers() {
   const [showPermissionsModal, setShowPermissionsModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedPermissions, setSelectedPermissions] = useState([]);
+  
+  // State reset senha
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetPasswordData, setResetPasswordData] = useState({ userId: null, username: '', newPassword: '' });
 
   // Form para criar usuário
   const [formData, setFormData] = useState({
@@ -137,6 +141,32 @@ export default function AdminUsers() {
     }
   };
 
+  const handleOpenResetModal = (user) => {
+    setResetPasswordData({ userId: user.id, username: user.username, newPassword: '' });
+    setShowResetModal(true);
+    setError('');
+    setSuccess('');
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (!resetPasswordData.newPassword) {
+        setError('A nova senha é obrigatória');
+        return;
+    }
+
+    try {
+        await authService.resetUserPassword(resetPasswordData.userId, resetPasswordData.newPassword);
+        setSuccess(`Senha do usuário ${resetPasswordData.username} resetada com sucesso!`);
+        setShowResetModal(false);
+    } catch (err) {
+        setError(err.error || 'Erro ao resetar senha');
+    }
+  };
+
   return (
     <div className="dashboard-layout">
       <Sidebar />
@@ -211,6 +241,13 @@ export default function AdminUsers() {
                         title="Gerenciar Permissões"
                       >
                         <Lock className="icon" />
+                      </button>
+                      <button
+                        className="btn-icon btn-reset"
+                        onClick={() => handleOpenResetModal(user)}
+                        title="Resetar Senha"
+                      >
+                        <Key className="icon" />
                       </button>
                       <button
                         className="btn-icon btn-delete"
@@ -336,6 +373,52 @@ export default function AdminUsers() {
                 Salvar Permissões
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Reset Senha */}
+      {showResetModal && (
+        <div className="modal-overlay" onClick={() => setShowResetModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Resetar Senha - {resetPasswordData.username}</h2>
+              <button 
+                className="btn-close" 
+                onClick={() => setShowResetModal(false)}
+              >
+                <X />
+              </button>
+            </div>
+
+            <form onSubmit={handleResetPassword}>
+              <div className="form-group">
+                <label>Nova Senha</label>
+                <input
+                  type="password"
+                  value={resetPasswordData.newPassword}
+                  onChange={e => setResetPasswordData({...resetPasswordData, newPassword: e.target.value})}
+                  placeholder="Digite a nova senha"
+                  required
+                />
+              </div>
+
+              <div className="modal-footer">
+                <button 
+                  type="button" 
+                  className="btn-secondary"
+                  onClick={() => setShowResetModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn-primary"
+                >
+                  Alterar Senha
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -251,6 +251,16 @@
   background-color: #5568d3;
 }
 
+.btn-reset {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.btn-reset:hover {
+  background-color: #fde68a;
+}
+
 .btn-delete {
   background-color: #f5f5f5;
   color: #c33;
